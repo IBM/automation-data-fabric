@@ -95,15 +95,6 @@ The Data Foundation automation is broken into what we call layers of automation 
 
 > At this time the most reliable way of running this automation is with Terraform in your local machine either through a bootstrapped container image or with native tools installed. We provide a Container image that has all the common SRE tools installed. [CLI Tools Image,](https://quay.io/repository/ibmgaragecloud/cli-tools?tab=tags) [Source Code for CLI Tools](https://github.com/cloud-native-toolkit/image-cli-tools)
 
-#### Optional components
-
-The following components (CP4D - Services) can be optionally deployed after Data Foundation has been deployed:
-
-| BOM ID | Name                                                                       | Description          | Run Time |
-|--------|----------------------------------------------------------------------------|----------------------|----------|
-| 315    | [315 - Cloud Pak for Data - DB2 Warehouse](./315-cloud-pak-for-data-db2wh) | Deploy DB2 Warehouse | 15 Mins   |
-| 320    | [315 - Cloud Pak for Data - DB2 OLTP](./320-cloud-pak-for-data-db2oltp)    | Deploy DB2 OLTP      | 15 Mins   |
-
 
 ## Installation Steps
 
@@ -472,12 +463,6 @@ The `gitops-repo_repo`, `gitops-repo_token`, `entitlement_key`, `server_url`, an
 32. Navigate to `Secrets` in the `cp4d` namespace, and find the `admin-user-details` secret.  Copy the value of `initial_admin_password` key inside of that secret.
 
 33. Go back to the Cloud Pak for Data Foundation instance that you opened in a separate window.  Log in using the username `admin` with the password copied in the previous step.
-
-### Optional Services
-
-- **DB2 OLTP** (Online transactional processing) - Please refer the instructions for [installing DB2 OLTP](README-DB2OLTP.md) on top of CP4D Data foundation
-
-- **DB2 Warehouse** Please refer the instructions for [installing DB2Warehouse](README-DB2WH.md) on top of CP4D Data foundation
 
 ## Summary
 
