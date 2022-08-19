@@ -1,0 +1,13 @@
+digraph {
+    rankdir="BT"
+    "aws-s3-instance (aws-s3-instance)"
+"aws-s3-bucket (aws-s3-bucket)" -> "aws-s3-instance (aws-s3-instance)"
+"aws-s3-bucket (aws-s3-bucket)"
+"gitops-cp-data-fabric (gitops-cp-data-fabric)" -> "gitops_repo (gitops-repo)"
+"gitops-cp-data-fabric (gitops-cp-data-fabric)" -> "datafab_namespace (gitops-namespace)"
+"gitops-cp-data-fabric (gitops-cp-data-fabric)" -> "aws-s3-instance (aws-s3-instance)"
+"gitops-cp-data-fabric (gitops-cp-data-fabric)"
+"gitops_repo (gitops-repo)"
+"datafab_namespace (gitops-namespace)" -> "gitops_repo (gitops-repo)"
+"datafab_namespace (gitops-namespace)"
+  }

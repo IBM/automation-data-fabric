@@ -1,0 +1,125 @@
+apiVersion: cloud.ibm.com/v1alpha1
+kind: BillOfMaterial
+metadata:
+  name: 610-datafabric-setup
+  labels:
+    type: software
+    code: '610'
+  annotations:
+    displayName: Data Fabric Setup - Demo Solution
+    description: GitOps deployment of Data Fabric Sample for Cloud pak for Data
+spec:
+  modules:
+    - name: aws-s3-instance
+      alias: aws-s3-instance
+      version: v1.1.1
+      variables:
+        - name: bucket_prefix
+          value: datafabric
+        - name: region
+          alias: var_aws_region
+          scope: global
+        - name: access_key
+          alias: var_aws_access_key
+          scope: global
+        - name: secret_key
+          alias: var_aws_secret_key
+          scope: global
+    - name: aws-s3-bucket
+      alias: aws-s3-bucket
+      version: v1.1.1
+      variables:
+        - name: access_key
+          alias: var_aws_access_key
+          scope: global
+        - name: secret_key
+          alias: var_aws_secret_key
+          scope: global
+        - name: file_path
+          value: Datafiles/aws/
+    - name: gitops-cp-data-fabric
+      alias: gitops-cp-data-fabric
+      version: v1.2.0
+      dependencies:
+        - name: namespace
+          ref: datafab_namespace
+      variables:
+        - name: cpd_namespace
+          alias: var_cpd_ns
+          scope: global
+        - name: operator_namespace
+          alias: var_cpd_operators_ns
+          scope: global
+        - name: access_key
+          alias: var_aws_access_key
+          scope: global
+        - name: secret_key
+          alias: var_aws_secret_key
+          scope: global
+    - name: gitops-namespace
+      alias: datafab_namespace
+      version: v1.11.2
+      variables:
+        - name: name
+          value: datafab-setup
+    - name: gitops-repo
+      alias: gitops_repo
+      version: v1.21.0
+  variables:
+    - name: var_aws_region
+      type: string
+      description: 'Please set the region where the resouces to be created '
+      defaultValue: ap-south-1
+    - name: var_aws_access_key
+      type: string
+      defaultValue: XXXXXXXXX
+    - name: var_aws_secret_key
+      type: string
+      defaultValue: XXXXXXXXXXXX
+    - name: region
+      type: string
+    - name: access_key
+      type: string
+    - name: secret_key
+      type: string
+    - name: var_cpd_ns
+      type: string
+      description: CPD namespace
+      defaultValue: cp4d
+    - name: var_cpd_operators_ns
+      type: string
+      description: Namespace for cpd operators
+      defaultValue: cpd-operators
+    - name: gitops_repo_host
+      type: string
+      description: >-
+        The host for the git repository. The git host used can be a GitHub,
+        GitHub Enterprise, Gitlab, Bitbucket, Gitea or Azure DevOps server. If
+        the host is null assumes in-cluster Gitea instance will be used.
+      defaultValue: ''
+    - name: gitops_repo_org
+      type: string
+      description: >-
+        The org/group where the git repository exists/will be provisioned. If
+        the value is left blank then the username org will be used.
+      defaultValue: ''
+    - name: gitops_repo_project
+      type: string
+      description: >-
+        The project that will be used for the git repo. (Primarily used for
+        Azure DevOps repos)
+      defaultValue: ''
+    - name: gitops_repo_username
+      type: string
+      description: The username of the user with access to the repository
+      defaultValue: ''
+    - name: gitops_repo_token
+      type: string
+      description: The personal access token used to access the repository
+      defaultValue: ''
+      sensitive: true
+    - name: gitops_repo_repo
+      type: string
+      description: >-
+        The short name of the repository (i.e. the part after the org/group
+        name)

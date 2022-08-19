@@ -1,0 +1,167 @@
+apiVersion: cloud.ibm.com/v1alpha1
+kind: BillOfMaterial
+metadata:
+  name: 600-datafabric-services-odf
+  labels:
+    type: software
+    code: '600'
+  annotations:
+    displayName: Install CP4D services for Data Fabric Solution
+    description: >-
+      GitOps deployment of WKC, WS, WML, DV Service & DV instance for  Data
+      Fabric Solution on Cloud pak for Data
+spec:
+  modules:
+    - name: gitops-cp-data-virt-svc
+      alias: gitops-cp-data-virt-svc
+      version: v2.2.0
+      dependencies:
+        - name: namespace
+          ref: datafab_namespace
+      variables:
+        - name: cpd_namespace
+          alias: var_cpd_ns
+          scope: global
+        - name: operator_namespace
+          alias: var_cpd_operators_ns
+          scope: global
+        - name: instance_version
+          value: 1.7.8
+        - name: size
+          value: small
+        - name: sub_syncwave
+          value: '-8'
+        - name: inst_syncwave
+          value: '-6'
+    - name: gitops-cp-data-virtualization
+      alias: gitops-cp-data-virtualization
+      version: v1.1.0
+      dependencies:
+        - name: namespace
+          ref: datafab_namespace
+      variables:
+        - name: cpd_namespace
+          alias: var_cpd_ns
+          scope: global
+        - name: storage_class
+          value: ocs-storagecluster-ceph-rbd
+    - name: gitops-cp-watson-studio
+      alias: gitops-cp-watson-studio
+      version: v1.3.0
+      dependencies:
+        - name: namespace
+          ref: datafab_namespace
+      variables:
+        - name: cpd_namespace
+          alias: var_cpd_ns
+          scope: global
+        - name: operator_namespace
+          alias: var_cpd_operators_ns
+          scope: global
+        - name: storage_vendor
+          value: ocs
+        - name: storage_class
+          value: ocs-storagecluster-cephfs
+        - name: instance_version
+          value: 4.0.9
+        - name: sub_syncwave
+          value: '-16'
+        - name: inst_syncwave
+          value: '-14'
+    - name: gitops-cp-wkc
+      alias: gitops-cp-wkc
+      version: v1.1.0
+      dependencies:
+        - name: namespace
+          ref: datafab_namespace
+      variables:
+        - name: cpd_namespace
+          alias: var_cpd_ns
+          scope: global
+        - name: operator_namespace
+          alias: var_cpd_operators_ns
+          scope: global
+        - name: storage_vendor
+          value: ocs
+        - name: storage_class
+          value: ocs-storagecluster-cephfs
+        - name: instance_version
+          value: 4.0.9
+        - name: sub_syncwave
+          value: '-20'
+        - name: inst_syncwave
+          value: '-18'
+    - name: gitops-cp-wml
+      alias: gitops-cp-wml
+      version: v1.2.0
+      dependencies:
+        - name: namespace
+          ref: datafab_namespace
+      variables:
+        - name: cpd_namespace
+          alias: var_cpd_ns
+          scope: global
+        - name: operator_namespace
+          alias: var_cpd_operators_ns
+          scope: global
+        - name: storage_vendor
+          value: ocs
+        - name: storage_class
+          value: ocs-storagecluster-cephfs
+        - name: instance_version
+          value: 4.0.9
+        - name: sub_syncwave
+          value: '-12'
+        - name: inst_syncwave
+          value: '-10'
+    - name: gitops-namespace
+      alias: datafab_namespace
+      version: v1.11.2
+      variables:
+        - name: name
+          value: datafab-services
+    - name: gitops-repo
+      alias: gitops_repo
+      version: v1.21.0
+  variables:
+    - name: var_cpd_operators_ns
+      type: string
+      description: Namespace for cpd operators
+      defaultValue: cpd-operators
+    - name: var_cpd_ns
+      type: string
+      description: CPD namespace
+      defaultValue: cp4d
+    - name: gitops_repo_host
+      type: string
+      description: >-
+        The host for the git repository. The git host used can be a GitHub,
+        GitHub Enterprise, Gitlab, Bitbucket, Gitea or Azure DevOps server. If
+        the host is null assumes in-cluster Gitea instance will be used.
+      defaultValue: ''
+    - name: gitops_repo_org
+      type: string
+      description: >-
+        The org/group where the git repository exists/will be provisioned. If
+        the value is left blank then the username org will be used.
+      defaultValue: ''
+    - name: gitops_repo_project
+      type: string
+      description: >-
+        The project that will be used for the git repo. (Primarily used for
+        Azure DevOps repos)
+      defaultValue: ''
+    - name: gitops_repo_username
+      type: string
+      description: The username of the user with access to the repository
+      defaultValue: ''
+    - name: gitops_repo_token
+      type: string
+      description: The personal access token used to access the repository
+      defaultValue: ''
+      sensitive: true
+    - name: gitops_repo_repo
+      type: string
+      description: >-
+        The short name of the repository (i.e. the part after the org/group
+        name)
