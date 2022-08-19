@@ -1,15 +1,11 @@
-# Cloud Pak for Data - Foundation Automation for AWS, Azure, and IBM Cloud
+# Cloud Pak for Data - Data Fabric Automation for AWS, Azure, and IBM Cloud
 
 ### Change Log
+- **08/2022** - Initial Release
 
-- **06/2022** - Fixed typos like GitClone script, replace maximo with CP4D from README
-- **06/2022** - Support for CP4D Data source services DB2OLTP and DB2Warehouse
-- **06/2022** - Support for Azure
-- **05/2022** - Initial Release
+> This collection of Cloud Pak for Data - Data Fabric terraform automation layers has been crafted from a set of  [Terraform modules](https://modules.cloudnativetoolkit.dev/) created by the IBM GSI Ecosystem Lab team part of the [IBM Partner Ecosystem organization](https://www.ibm.com/partnerworld/public?mhsrc=ibmsearch_a&mhq=partnerworld). Please contact **Matthew Perrins** _mjperrin@us.ibm.com_, or **Andrew Trice** _amtrice@us.ibm.com_ or, **Sumeet Kapoor** _sumeet_kapoor@in.ibm.com_, or **Sasikanth Gumpana** _bgumpana@in.ibm.com_, or **Snehal Pansare** _spansari@in.ibm.com_ for more details or raise an issue on the repository.
 
-> This collection of Cloud Pak for Data terraform automation layers has been crafted from a set of  [Terraform modules](https://modules.cloudnativetoolkit.dev/) created by the IBM GSI Ecosystem Lab team part of the [IBM Partner Ecosystem organization](https://www.ibm.com/partnerworld/public?mhsrc=ibmsearch_a&mhq=partnerworld). Please contact **Matthew Perrins** _mjperrin@us.ibm.com_, **Sean Sundberg** _seansund@us.ibm.com_, **Tom Skill** _tskill@us.ibm.com_,  or **Andrew Trice** _amtrice@us.ibm.com_ or **Bala Sivasubramanian** _bala@us.ibm.com_ for more details or raise an issue on the repository.
-
-The automation will support the installation of Data Foundation on three cloud platforms (AWS, Azure, and IBM Cloud).  Data Foundation is the minimum base layer of the Cloud Pak for Data that is required to install additional tools, services or cartridges, such as DB2 Warehouse, Data Virtualization, Watson Knowledge Studio, or multi-product solutions like Data Fabric.
+The automation will support the installation of Data Fabric Solution on three cloud platforms (AWS, Azure, and IBM Cloud).  Data Fabric Solution on Cloud Pak for Data that is required to install additional tools, services or cartridges, such as Watson Knowledge Catalog, Watson Studio, Watson Machine Learning, Data Virtualization, or multi-product solutions like Data Fabric.
 
 ### Target Infrastructure
 
@@ -356,7 +352,8 @@ You can install these clis on your local machine **OR** run the following comman
     Setting up current/210-ibm-portworx-storage from 210-ibm-portworx-storage
     Setting up current/300-cloud-pak-for-data-entitlement from 300-cloud-pak-for-data-entitlement
     Setting up current/305-cloud-pak-for-data-foundation from 305-cloud-pak-for-data-foundation
-    Setting up current/310-cloud-pak-for-data-db2wh from 310-cloud-pak-for-data-db2wh
+    Setting up current/600-datafabric-services-odf [or] 600-datafabric-services-portworx from 600-datafabric-services-odf [or] 600-datafabric-services-portworx
+    Setting up current/610-datafabric-setup from 610-datafabric-setup
     move to /workspaces/current this is where your automation is configured
     ```
 13. The default `terraform.tfvars` file is symbolically linked to the new `workspaces/current` folder so this enables you to edit the file in your native operating system using your editor of choice.
@@ -450,19 +447,39 @@ The `gitops-repo_repo`, `gitops-repo_token`, `entitlement_key`, `server_url`, an
 
     Data Foundation deployment will run asynchronously in the background, and may require up to 45 minutes to complete.
 
-30. You can check the progress of the deployment by opening up Argo CD (OpenShift GitOps).  From the OpenShift user interface, click on the Application menu 3x3 Icon on the header and select **Cluster Argo CD** menu item.)
+30. Change directories to the `600-datafabric-services-odf [or] 600-datafabric-services-portworx` folder and run the following commands to deploy Data Fabric Services (WKC, WS, WML, DV) into the cluster.
+
+    ```
+    cd ../600-datafabric-services-odf [or] 600-datafabric-services-portworx
+    terraform init
+    terraform apply --auto-approve
+    ```
+
+    Data Foundation deployment will run asynchronously in the background, and may require up to 45 minutes to complete.
+
+31. Change directories to the `610-datafabric-setup` folder and run the following commands to deploy Data Fabric Setup into the cluster.
+
+    ```
+    cd ../610-datafabric-setup
+    terraform init
+    terraform apply --auto-approve
+    ```
+
+    Data Foundation deployment will run asynchronously in the background, and may require up to 45 minutes to complete.
+
+32. You can check the progress of the deployment by opening up Argo CD (OpenShift GitOps).  From the OpenShift user interface, click on the Application menu 3x3 Icon on the header and select **Cluster Argo CD** menu item.)
 
     This process will take between 30 and 45 minutes to complete.  During the deployment, several cluster projects/namespaces and deployments will be created.
 
 ##### Access the Data Foundation Deployment
 
-31. Once deployment is complete, go back into the OpenShift cluster user interface and navigate to view `Routes` for the `cp4d` namespace.  Here you can see the URL to the deployed Data Foundation instance.  Open this url in a new browser window.
+33. Once deployment is complete, go back into the OpenShift cluster user interface and navigate to view `Routes` for the `cp4d` namespace.  Here you can see the URL to the deployed Data Foundation instance.  Open this url in a new browser window.
 
     ![Reference Architecture](images/cp4d-route.jpg)
 
-32. Navigate to `Secrets` in the `cp4d` namespace, and find the `admin-user-details` secret.  Copy the value of `initial_admin_password` key inside of that secret.
+34. Navigate to `Secrets` in the `cp4d` namespace, and find the `admin-user-details` secret.  Copy the value of `initial_admin_password` key inside of that secret.
 
-33. Go back to the Cloud Pak for Data Foundation instance that you opened in a separate window.  Log in using the username `admin` with the password copied in the previous step.
+35. Go back to the Cloud Pak for Data Foundation instance that you opened in a separate window.  Log in using the username `admin` with the password copied in the previous step.
 
 ## Summary
 
