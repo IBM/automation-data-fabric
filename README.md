@@ -1,4 +1,4 @@
-# Cloud Pak for Data - Data Fabric Automation for AWS, Azure, and IBM Cloud
+# Cloud Pak for Data - Data Fabric Solution Automation for AWS, Azure, and IBM Cloud
 
 ### Change Log
 - **08/2022** - Initial Release
@@ -9,7 +9,7 @@ The automation will support the installation of Data Fabric Solution on three cl
 
 ### Target Infrastructure
 
-The Cloud Pak for Data - Foundation automation assumes you have an OpenShift cluster already configured on your cloud of choice. The supported managed options are [ROSA for AWS](https://aws.amazon.com/rosa/), [ARO for Azure](https://azure.microsoft.com/en-us/services/openshift/) or [ROKS for IBM Cloud ](https://www.ibm.com/cloud/openshift).
+The Cloud Pak for Data - Data Fabric automation assumes you have an OpenShift cluster already configured on your cloud of choice. The supported managed options are [ROSA for AWS](https://aws.amazon.com/rosa/), [ARO for Azure](https://azure.microsoft.com/en-us/services/openshift/) or [ROKS for IBM Cloud ](https://www.ibm.com/cloud/openshift).
 
 Before you start to install and configure Cloud Pak for Data, you will need to identify what your target infrastructure is going to be. You can start from scratch and use one of the pre-defined reference architectures from IBM or bring your own.
 
@@ -42,25 +42,25 @@ Note:  [Cloud Pak for Data system requirements](https://www.ibm.com/docs/en/clou
 ### Getting Started
 
 
-Within this repository you will find a set of Terraform template bundles that embody best practices for provisioning the Data Foundation in multiple cloud environments. This `README.md` describes the SRE steps required to provision the Data Foundation software.
+Within this repository you will find a set of Terraform template bundles that embody best practices for Configure and Setup the Data Fabric in multiple cloud environments. This `README.md` describes the SRE steps required to Configure and Setup the Data Fabric Solution.
 
 
-This suite of automation can be used for a Proof of Technology environment, or used as a foundation for production workloads with a fully working end-to-end cloud-native environment. The software installs using **GitOps** best practices with [**Red Hat Open Shift GitOps**](https://docs.openshift.com/container-platform/4.8/cicd/gitops/understanding-openshift-gitops.html)
+This suite of automation can be used for a Proof of Technology environment to Configure and Setup the Data Fabric Solution with a fully working end-to-end cloud-native environment. The software installs using **GitOps** best practices with [**Red Hat Open Shift GitOps**](https://docs.openshift.com/container-platform/4.8/cicd/gitops/understanding-openshift-gitops.html)
 
 
-## Data Foundation  Architecture
+## Data Fabric Solution Architecture
 
 
-The following reference architecture represents the logical view of how Data Foundation works after it is installed.  Data Foundation is deployed with either Portworx or OpenShift Data Foundation storage, within an OpenShift Cluster, on the Cloud provider of your choice.
+The following reference architecture represents the logical view of how Data Fabric Solution works after it is installed.  Data Fabric is Configured on top of  Data Foundation which deployed with either Portworx or OpenShift Data Foundation storage, within an OpenShift Cluster, on the Cloud provider of your choice.
 
 
 ![Reference Architecture](images/cp4d-diagram.jpg)
 
 
-## Deploying Data Foundation
+## Deploying Data Fabric Solution
 
 
-The following instructions will help you install Cloud Pak for Data (CP4D) into AWS, Azure, and IBM Cloud OpenShift Kubernetes environment.
+The following instructions will help you to Configure and Setup the Data Fabric Solution on AWS, Azure, and IBM Cloud OpenShift Kubernetes environment.
 
 
 ### Licenses and Entitlements
@@ -160,10 +160,10 @@ A container image is used to provide a consistent runtime environment for the au
 1. First step is to clone the automation code to your local machine. Run this git command in your favorite command line shell.
 
     ```
-    git clone https://github.com/IBM/automation-data-foundation.git
+    git clone https://github.com/IBM/automation-data-fabric.git
     ```
 
-2. Navigate into the `automation-data-foundation` folder using your command line.
+2. Navigate into the `automation-data-fabric` folder using your command line.
 
    a.	The README.md has a comprehensive instructions on how to install this into other cloud environments than TechZone. This document focuses on getting it running in a TechZone requested environment.
 
