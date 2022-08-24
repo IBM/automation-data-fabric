@@ -202,9 +202,9 @@ cp "${SCRIPT_DIR}/destroy-all.sh" "${WORKSPACE_DIR}/destroy-all.sh"
 WORKSPACE_DIR=$(cd "${WORKSPACE_DIR}"; pwd -P)
 
 if [[ "${PORTWORX_SPEC_FILE}" == "installed" ]]; then
-  ALL_ARCH="200|300|305|310|315|320"
+  ALL_ARCH="200|300|305|310|315|320|600|610"
 else
-  ALL_ARCH="200|210|300|305|310|315|320"
+  ALL_ARCH="200|210|300|305|310|315|320|600|610"
 fi
 
 echo "Setting up workspace in ${WORKSPACE_DIR}"

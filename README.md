@@ -79,7 +79,7 @@ After you purchase Cloud Pak for Data, an entitlement API key for the software i
 
 ### Data Fabric Layered Installation
 
-The Data Foundation automation is broken into what we call layers of automation or bundles. The bundles enable SRE activities to be optimized. The automation is generic between clouds other than configuration storage options, which are platform specific.
+The Data Fabric automation is broken into what we call layers of automation or bundles. The bundles enable SRE activities to be optimized. The automation is generic between clouds other than configuration storage options, which are platform specific.
 
 | BOM ID | Name                                                                                                                                                                                                                                                           | Description                                                                                                                                                | Run Time |
 |--------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|
@@ -418,6 +418,8 @@ The `gitops-repo_repo`, `gitops-repo_token`, `entitlement_key`, `server_url`, an
 
 
 25. Change directories to the `210-*` folder and run the following commands to deploy storage into your cluster:
+    
+    > If you are using IBM Techzone's IBM Cloud ROKS OpenShift Cluster (VPC), OCS is already configured. You can skip this step. 
 
     ```
     cd 210-ibm-portworx-storage
@@ -457,7 +459,7 @@ The `gitops-repo_repo`, `gitops-repo_token`, `entitlement_key`, `server_url`, an
     terraform apply --auto-approve
     ```
 
-    Data Foundation deployment will run asynchronously in the background, and may require up to 45 minutes to complete.
+    Data Fabric Services (WKC, WS, WML, DV & DV provision) will run asynchronously in the background, and may require up to 90 minutes to complete.
 
 31. Change directories to the `610-datafabric-setup` folder and run the following commands to deploy Data Fabric Setup into the cluster.
 
@@ -467,11 +469,11 @@ The `gitops-repo_repo`, `gitops-repo_token`, `entitlement_key`, `server_url`, an
     terraform apply --auto-approve
     ```
 
-    Data Foundation deployment will run asynchronously in the background, and may require up to 45 minutes to complete.
+    Data Fabric setup will run asynchronously in the background, and may require up to 5 minutes to complete.
 
 32. You can check the progress of the deployment by opening up Argo CD (OpenShift GitOps).  From the OpenShift user interface, click on the Application menu 3x3 Icon on the header and select **Cluster Argo CD** menu item.)
 
-    This process will take between 30 and 45 minutes to complete.  During the deployment, several cluster projects/namespaces and deployments will be created.
+    This process will take between 3 to 4 hours to complete.  During the deployment, several cluster projects/namespaces and deployments will be created.
 
 ##### Access the Data Foundation Deployment
 
