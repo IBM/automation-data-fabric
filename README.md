@@ -461,7 +461,10 @@ The `gitops-repo_repo`, `gitops-repo_token`, `entitlement_key`, `server_url`, an
 
     Data Fabric Services (WKC, WS, WML, DV & DV provision) will run asynchronously in the background, and may require up to 120 minutes to complete.
 
-31. Change directories to the `610-datafabric-setup` folder and run the following commands to deploy Data Fabric Setup into the cluster.
+31. Change directories to the `610-datafabric-setup` folder and run the following commands to
+    a.	Create AWS S3 Bucket
+    b.	Upload Datafiles to AWS S3 Bucket 
+    c.	Configure Data Fabric Solution on top of Cloud pak for Data
 
     ```
     cd ../610-datafabric-setup
