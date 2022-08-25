@@ -54,7 +54,7 @@ This suite of automation can be used for a Proof of Technology environment to Co
 The following reference architecture represents the logical view of how Data Fabric Solution works after it is installed.  Data Fabric is Configured on top of  Data Foundation which deployed with either Portworx or OpenShift Data Foundation storage, within an OpenShift Cluster, on the Cloud provider of your choice.
 
 
-![Reference Architecture](images/cp4d-diagram.jpg)
+![Reference Architecture](images/datafarbic_arch.jpg)
 
 
 ## Deploying Data Fabric Solution
