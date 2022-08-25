@@ -196,7 +196,7 @@ A container image is used to provide a consistent runtime environment for the au
     ## TF_VAR_entitlement_key: The entitlement key used to access the IBM software images in the container registry. Visit https://myibm.ibm.com/products-services/containerlibrary to get the key
     TF_VAR_entitlement_key=
     
-    # Only needed if targeting AWS Deployment
+    # AWS Credentials are required to Create AWS S3 bucket and upload Datafiles to the S3 Bucket (https://github.com/IBM/automation-data-fabric/tree/main/610-datafabric-setup/terraform/Datafiles)
     TF_VAR_access_key=
     TF_VAR_secret_key=
     
@@ -459,7 +459,7 @@ The `gitops-repo_repo`, `gitops-repo_token`, `entitlement_key`, `server_url`, an
     terraform apply --auto-approve
     ```
 
-    Data Fabric Services (WKC, WS, WML, DV & DV provision) will run asynchronously in the background, and may require up to 90 minutes to complete.
+    Data Fabric Services (WKC, WS, WML, DV & DV provision) will run asynchronously in the background, and may require up to 120 minutes to complete.
 
 31. Change directories to the `610-datafabric-setup` folder and run the following commands to deploy Data Fabric Setup into the cluster.
 

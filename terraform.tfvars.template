@@ -31,3 +31,4 @@ portworx_spec_file="PORTWORX_SPEC_FILE"
 
 # Certificate Authority issuer CRT file - required for self-signed certificates
 cluster_ca_cert_file="CA_CRT_FILE"
+
