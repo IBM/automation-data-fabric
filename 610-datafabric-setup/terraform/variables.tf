@@ -9,9 +9,12 @@ variable "aws-s3-instance_acl" {
   default = "private"
 }
 variable "aws-s3-instance_tags" {
-  type = string
+  type = map
   description = "(Optional) A mapping of tags to assign to the bucket."
-  default = "{ environment = swew terraform = true }"
+  default = { 
+    environment = "swew"
+    terraform = "true" 
+  }
 }
 variable "var_aws_region" {
   type = string
