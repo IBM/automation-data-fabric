@@ -1,4 +1,4 @@
-# Cloud Pak for Data - Data Fabric Solution Automation for AWS, Azure, and IBM Cloud
+# Cloud Pak for Data 4.0 - Data Fabric Solution Automation for AWS, Azure, and IBM Cloud
 
 ### Change Log
 - **08/2022** - Initial Release
@@ -9,7 +9,7 @@ The automation will support the installation of Data Fabric Solution on three cl
 
 ### Target Infrastructure
 
-The Cloud Pak for Data - Data Fabric automation assumes you have an OpenShift cluster already configured on your cloud of choice. The supported managed options are [ROSA for AWS](https://aws.amazon.com/rosa/), [ARO for Azure](https://azure.microsoft.com/en-us/services/openshift/) or [ROKS for IBM Cloud ](https://www.ibm.com/cloud/openshift).
+The Cloud Pak for Data 4.0 - Data Fabric automation assumes you have an OpenShift cluster already configured on your cloud of choice. The supported managed options are [ROSA for AWS](https://aws.amazon.com/rosa/), [ARO for Azure](https://azure.microsoft.com/en-us/services/openshift/) or [ROKS for IBM Cloud ](https://www.ibm.com/cloud/openshift).
 
 Before you start to install and configure Cloud Pak for Data, you will need to identify what your target infrastructure is going to be. You can start from scratch and use one of the pre-defined reference architectures from IBM or bring your own.
 
@@ -86,7 +86,7 @@ The Data Fabric automation is broken into what we call layers of automation or b
 | 200    | [200 - OpenShift Gitops](./200-openshift-gitops)                                                                                                                                                                                                               | Set up OpenShift GitOps tools in an OpenShift cluster. This is required to install the software using gitops approaches.                                   | 10 Mins  |
 | 210    | [210 - IBM Portworx Storage](./210-ibm-portworx-storage) <br> [210 - IBM OpenShift Data Foundation](./210-ibm-odf-storage)  <br>  [210 - AWS Portworx Storage](./210-aws-portworx-storage)  <br>  [210 - Azure Portworx Storage](./210-azure-portworx-storage) | Use this automation to deploy a storage solution for your cluster.  | 10 Mins  |
 | 300    | [300 - Cloud Pak for Data Entitlement](./300-cloud-pak-for-data-entitlement)                                                                                                                                                                                   | Update the OpenShift Cluster with your entitlement key                                                                                                     | 5 Mins   |
-| 305    | [300 - Cloud Pak for Data Foundation](./305-cloud-pak-for-data-foundation)                                                                                                                                                                                     | Deploy the Cloud Pak for Data Foundation components                                                                                                        | 45 Mins  |
+| 305    | [305 - Cloud Pak for Data Foundation](./305-cloud-pak-for-data-foundation)                                                                                                                                                                                     | Deploy the Cloud Pak for Data (4.0) Foundation components                                                                                                        | 45 Mins  |
 | 600    | [600 - datafabric-services-odf ](./600-datafabric-services-odf ) [600 - datafabric-services-portworx ](./600-datafabric-services-portworx )                                                                                                                                                                                 | Deploy the Data Fabric Servides with odf or portworx                                                                                                      | 120 Mins  |
 | 610    | [610 - datafabric-setup](./610-datafabric-setup)                                                                                                                                                                                     | Deploy the Data Farbic Setup                                                                                                        | 5 Mins  |
 
@@ -441,7 +441,7 @@ The `gitops-repo_repo`, `gitops-repo_token`, `entitlement_key`, `server_url`, an
 
     > This step **does not** require worker nodes to be restarted as some other installation methods describe.
 
-29. Change directories to the `305-cloud-pak-for-data-foundation` folder and run the following commands to deploy Data Foundation into the cluster.
+29. Change directories to the `305-cloud-pak-for-data-foundation` folder and run the following commands to deploy Data Foundation 4.0 into the cluster.
 
     ```
     cd ../305-cloud-pak-for-data-foundation
