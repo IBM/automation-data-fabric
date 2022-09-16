@@ -78,6 +78,6 @@ These steps are used as an alternative to the `apply-all.sh` script, which will 
 
 9. You can check the progress of the deployment by opening up Argo CD (OpenShift GitOps).  From the OpenShift user interface, click on the Application menu 3x3 Icon on the header and select **Cluster Argo CD** menu item.)
 
-    This process will take between 30 and 45 minutes to complete.  During the deployment, several cluster projects/namespaces and deployments will be created.
+    This process will take between 160 and 180 minutes to complete.  During the deployment, several cluster projects/namespaces and deployments will be created.
 
 Once complete, go back and complete the [Access the Data Foundation Deployment](README.md#access-the-data-foundation-deployment) instructions.
