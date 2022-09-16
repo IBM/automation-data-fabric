@@ -117,9 +117,6 @@ Pre-requisites:
 
 - Install [Brew](https://brew.sh/)
 
-- If allowed by your corporate policy, install [Docker Desktop](https://www.docker.com/products/docker-desktop/).  If not allowed, install [Colima](https://github.com/abiosoft/colima), a replacement for Docker Desktop
-
-
 Ensure you have the following before continuing:
 
 - Github account exists
@@ -137,22 +134,12 @@ Ensure you have the following before continuing:
 The installation process will use a standard GitOps repository that has been built using the Modules to support Data Foundation installation. The automation is consistent across three cloud environments AWS, Azure, and IBM Cloud.
 
 
-#### (optional) Set up the container environment
+#### Set up the runtime environment
 
-A container image is used to provide a consistent runtime environment for the automation that includes all the required tools. The provided container image supports hosts with either amd64 and amd64 architectures. If you do not have a container runtime already (e.g. Docker Desktop or podman), **Colima** can be used. The steps to install and start **Colima** on MacOS are provided below:
+At this time the most reliable way of running this automation is with Terraform in your local machine either through a bootstrapped docker image or Virtual Machine. We provide both a [container image](https://github.com/cloud-native-toolkit/image-cli-tools) and a virtual machine [cloud-init](https://github.com/cloud-native-toolkit/sre-utilities/blob/main/cloud-init/cli-tools.yaml) script that have all the common SRE tools installed.
 
-1. Install **Colima** and the **docker** cli. This only needs to be done once.
-
-    ```shell
-    brew install colima docker
-    ```
-
-2. Start **Colima**. This needs to be done after each time the computer is restarted. (The first time **Colima** is started takes longer to prepare the environment.)
-
-    ```shell
-    colima start
-    ```
-
+We recommend using Docker Desktop if choosing the container image method, and Multipass if choosing the virtual machine method.   Detailed instructions for downloading and configuring both Docker Desktop and Multipass can be found in [RUNTIMES.md](./RUNTIMES.md)
+    
 
 #### Set up environment credentials
 
@@ -292,52 +279,29 @@ You can install these clis on your local machine **OR** run the following comman
 ##### Set up the automation workspace
 
 
-7. (Optional) If your corporate policy does not allow use of Docker Desktop, then you need to install **Colima** as an alternative
+7. Launch the automation runtime.
+    - If using *Docker Desktop*, run `./launch.sh`. This will start a container image with the prompt opened in the `/terraform` directory.
+    - If using *Multipass*, run `mutlipass shell cli-tools` to start the interactive shell, and cd into the `/automation/{template}` directory, where  `{template}` is the folder you've cloned this repo. Be sure to run `source credentials.properties` once in the shell.
 
-    ```
-    brew install colima
-    colima start
-    ```
-
-
-9. We are now ready to start installing Data Foundation, run the `launch.sh` command, make sure you are in the root of the `automation-data-foundation` repository
+8. Next we need to create a workspace to run the Terraform automation.  Below you can see the parameters to configure your workspace for terraform execution.
 
    ```
-   ./launch.sh
-   Cleaning up old container: cli-tools-WljCg
-   Initializing container cli-tools-WljCg from quay.io/cloudnativetoolkit/cli-tools:v1.1
-   Attaching to running container...
-   /terraform $
-   ```
-
-
-10. **launch.sh** will download a container image that contains all the command line tools to enable easy installation of the software. Once it has downloaded, it will mount the local file system and exec into the container for you to start running commands from within this custom container.
-
-
-> we expect partners and clients will use their own specific **Continuous Integration** tools to support this the IBM team has focused on getting it installed in the least complicated way possible
-
-
-11. Next we need to create a workspace to run the Terraform automation.  Below you can see the parameters to configure your workspace for terraform execution.
-
-    ```
-    /terraform $ ./setup-workspace.sh -h
-    Creates a workspace folder and populates it with automation bundles you require.
+   /terraform $ ./setup-workspace.sh -h
+   Creates a workspace folder and populates it with automation bundles you require.
     
-    Usage: setup-workspace.sh
-    options:
-    -p     Cloud provider (aws, azure, ibm)
-    -s     Storage (portworx or odf)
-    -n     (optional) prefix that should be used for all variables
-    -x     (optional) Portworx spec file - the name of the file containing the Portworx configuration spec yaml
-    -c     (optional) Self-signed Certificate Authority issuer CRT file
-    -h     Print this help
-    ```
+   Usage: setup-workspace.sh
+   options:
+   -p     Cloud provider (aws, azure, ibm)
+   -s     Storage (portworx or odf)
+   -n     (optional) prefix that should be used for all variables
+   -x     (optional) Portworx spec file - the name of the file containing the Portworx configuration spec yaml
+   -c     (optional) Self-signed Certificate Authority issuer CRT file
+   -h     Print this help
+   ```
 
-    You will need to select the cloud provider of your choice, storage option, and if desired, a prefix for naming new resource instances on the Cloud account.  If you are using Azure, you will need a Portworx spec file name (as described above), and if your cluster is using a self-signed SSL certificate, you will need a copy of the issuer cert and the file name.
+   You will need to select the cloud provider of your choice, storage option, and if desired, a prefix for naming new resource instances on the Cloud account.  If you are using Azure, you will need a Portworx spec file name (as described above), and if your cluster is using a self-signed SSL certificate, you will need a copy of the issuer cert and the file name.
 
-    > ⚠️ At this time, only IBM Cloud and Azure are supported, but support for AWS will be released in the coming days.
-
-12. Run the command `setup-workspace.sh -p ibm -s portworx -n df` and include optional parameters as needed.
+9. Run the command `setup-workspace.sh -p ibm -s portworx -n df` and include optional parameters as needed.
 
     ```
     /terraform $ ./setup-workspace.sh -p ibm -s portworx -n df
@@ -358,9 +322,10 @@ You can install these clis on your local machine **OR** run the following comman
     Setting up current/610-datafabric-setup from 610-datafabric-setup
     move to /workspaces/current this is where your automation is configured
     ```
-13. The default `terraform.tfvars` file is symbolically linked to the new `workspaces/current` folder so this enables you to edit the file in your native operating system using your editor of choice.
+   
+10. The default `terraform.tfvars` file is symbolically linked to the new `workspaces/current` folder so this enables you to edit the file in your native operating system using your editor of choice.
 
-14. Edit the default `terraform.tfvars` file this will enable you to setup the GitOps parameters.
+12. Edit the default `terraform.tfvars` file this will enable you to setup the GitOps parameters.
 
 The following you will be prompted for and some suggested values.
 
@@ -393,7 +358,9 @@ The `gitops-repo_repo`, `gitops-repo_token`, `entitlement_key`, `server_url`, an
 
 ##### Automated Deployment
 
-22. To perform the deployment automatically, execute the `./apply-all.sh` script in the `/workspaces/current`.  This will apply each of the Data Foundation layers sequentially.  This operation will complete in 10-15 minutes, and the Data Foundation will continue asycnchronously in the background.  This can take an additional 45 minutes.
+22. To perform the deployment automatically, execute the `./apply-all.sh` script in the `/workspaces/current` directory.  This will apply each of the Data Foundation layers sequentially.  This operation will complete in 10-15 minutes, and the Data Foundation will continue asycnchronously in the background.  This can take an additional 45 minutes.
+
+    Alternatively you can run each of the layers individually, by following the [manual deployment instructions](MANUAL-DEPLOY.md).
 
     Once complete, skip to the **Access the Data Foundation Deployment** section
 

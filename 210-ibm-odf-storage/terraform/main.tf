@@ -1,7 +1,8 @@
 module "gitops_repo" {
-  source = "github.com/cloud-native-toolkit/terraform-tools-gitops?ref=v1.20.2"
+  source = "github.com/cloud-native-toolkit/terraform-tools-gitops?ref=v1.21.0"
 
   branch = var.gitops_repo_branch
+  debug = var.debug
   gitea_host = var.gitops_repo_gitea_host
   gitea_org = var.gitops_repo_gitea_org
   gitea_token = var.gitops_repo_gitea_token
@@ -20,7 +21,7 @@ module "gitops_repo" {
   username = var.gitops_repo_username
 }
 module "gitops-ibm-odf" {
-  source = "github.com/cloud-native-toolkit/terraform-gitops-ibm-odf?ref=v0.2.0"
+  source = "github.com/cloud-native-toolkit/terraform-gitops-ibm-odf?ref=v0.3.0"
 
   git_credentials = module.gitops_repo.git_credentials
   gitops_config = module.gitops_repo.gitops_config
@@ -30,7 +31,7 @@ module "gitops-ibm-odf" {
   server_name = module.gitops_repo.server_name
 }
 module "odf_namespace" {
-  source = "github.com/cloud-native-toolkit/terraform-gitops-namespace?ref=v1.11.2"
+  source = "github.com/cloud-native-toolkit/terraform-gitops-namespace?ref=v1.12.2"
 
   argocd_namespace = var.odf_namespace_argocd_namespace
   ci = var.odf_namespace_ci
@@ -39,4 +40,11 @@ module "odf_namespace" {
   gitops_config = module.gitops_repo.gitops_config
   name = var.odf_namespace_name
   server_name = module.gitops_repo.server_name
+}
+module "util-clis" {
+  source = "cloud-native-toolkit/clis/util"
+  version = "1.16.9"
+
+  bin_dir = var.util-clis_bin_dir
+  clis = var.util-clis_clis == null ? null : jsondecode(var.util-clis_clis)
 }
