@@ -29,7 +29,7 @@ The reference architectures are provided in three different forms, with increasi
 
 For each of these reference architecture, we have provided a detailed set of automation to create the environment for the software. If you do not have an OpenShift environment provisioned, please use one of these. They are optimized for the installation of this solution.
 
-Note:  [Cloud Pak for Data system requirements](https://www.ibm.com/docs/en/cloud-paks/cp-data/3.5.0?topic=planning-system-requirements) recommend at least 3 worker nodes, with minimum 16vCPU per node and minimum 64 GB RAM per node (128 GB RAM is recommended) for base platform. For Data Fabric Solution total 8 worker nodes, with minimum 16vCPU per node and minimum 64 GB RAM per node are required.
+Note:  [Cloud Pak for Data 4.0 system requirements](https://www.ibm.com/docs/en/cloud-paks/cp-data/3.5.0?topic=planning-system-requirements) recommend at least 3 worker nodes, with minimum 16vCPU per node and minimum 64 GB RAM per node (128 GB RAM is recommended) for base platform. For Data Fabric Solution total 8 worker nodes, with minimum 16vCPU per node and minimum 64 GB RAM per node are required.
 
 | Cloud Platform                          | Automation and Documentation                                                                                                                                                                                                                                              |   
 |-----------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -169,21 +169,27 @@ We recommend using Docker Desktop if choosing the container image method, and Mu
     ## This is a template file and the ./launch.sh script looks for a file based on this template named credentials.properties
     
     ## gitops_repo_host: The host for the git repository
-    TF_VAR_gitops_repo_host=github.com
+    export TF_VAR_gitops_repo_host=github.com
     ## gitops_repo_username: The username of the user with access to the repository
-    TF_VAR_gitops_repo_username=
+    export TF_VAR_gitops_repo_username=
     ## gitops_repo_token: The personal access token used to access the repository
-    TF_VAR_gitops_repo_token=
+    export TF_VAR_gitops_repo_token=
     
     ## TF_VAR_server_url: The url for the OpenShift api server
-    TF_VAR_server_url=
+    export TF_VAR_server_url=
     ## TF_VAR_cluster_login_token: Token used for authentication to the api server
-    TF_VAR_cluster_login_token=
+    export TF_VAR_cluster_login_token=
     
     ## TF_VAR_entitlement_key: The entitlement key used to access the IBM software images in the container registry. Visit https://myibm.ibm.com/products-services/containerlibrary to get the key
-    TF_VAR_entitlement_key=
+    export TF_VAR_entitlement_key=
     
-    # AWS Credentials are required to Create AWS S3 bucket and upload Datafiles to the S3 Bucket (https://github.com/IBM/automation-data-fabric/tree/main/610-datafabric-setup/terraform/Datafiles)
+    # Only needed if targeting IBM Cloud Deployment
+    export TF_VAR_ibmcloud_api_key=
+    
+    # AWS Credentials are required to Create AWS S3 bucket and upload Datafiles to the S3 Bucket (https://github.com/IBM/automation-data-fabric/tree/main/610-datafabric-setup/terraform/Datafiles)    
+    ## particular permissions in order to interact with the account and the OpenShift cluster. Use the
+    ## provided `aws-portworx-credentials.sh` script to retrieve/generate these credentials.
+    ##
     TF_VAR_access_key=
     TF_VAR_secret_key=
     
@@ -192,20 +198,18 @@ We recommend using Docker Desktop if choosing the container image method, and Mu
     ## Azure credentials
     ## Credentials are required to install Portworx on an Azure account. These credentials must have
     ## particular permissions in order to interact with the account and the OpenShift cluster. Use the
-    ## provided `azure-portworx-credentials.sh` script to retrieve/generate these credentials. Be sure to use the same cluster name that was used to create the cluster on Azure
+    ## provided `azure-portworx-credentials.sh` script to retrieve/generate these credentials.
     ##
     
     ## TF_VAR_azure_subscription_id: The subscription id for the Azure account. This is required if Azure portworx is used
-    TF_VAR_azure_subscription_id=
+    export TF_VAR_azure_subscription_id=
     ## TF_VAR_azure_tenant_id: The tenant id for the Azure account. This is required if Azure portworx is used
-    TF_VAR_azure_tenant_id=
+    export TF_VAR_azure_tenant_id=
     ## TF_VAR_azure_client_id: The client id of the user for the Azure account. This is required if Azure portworx is used
-    TF_VAR_azure_client_id=
+    export TF_VAR_azure_client_id=
     ## TF_VAR_azure_client_secret: The client id of the user for the Azure account. This is required if Azure portworx is used
-    TF_VAR_azure_client_secret=
+    export TF_VAR_azure_client_secret=
     ```
-
-   > ⚠️ Do not wrap any values in `credentials.properties` in quotes
 
 
 4. Add your Git Hub username and your Personal Access Token to `gitops_repo_username` and `gitops_repo_token`
